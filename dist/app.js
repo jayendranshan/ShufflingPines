@@ -1,0 +1,1 @@
+$(document).ready(function(){var z=0;$("#plus-btn").click(function(){z++,$("#fizzbuzz").html(z)}),$("#fizzbuzz").html(z)});
