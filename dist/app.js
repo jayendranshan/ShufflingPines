@@ -1,1 +1,1 @@
-$(document).ready(function(){var z=0;$("#plus-btn").click(function(){z++,$("#fizzbuzz").html(z)}),$("#fizzbuzz").html(z)});
+angular.module("shuffling",[]).controller("ShufflingController",function(){var e=this;e.guests=[],e.Add=function(){e.guests.push({username:e.username,time:new Date}),e.username="",e.password=""}});

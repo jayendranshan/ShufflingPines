@@ -4,16 +4,14 @@
   <head>
     <meta charset="utf-8" />
     <title>Shuffling Pines</title>
-    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="styles.css"/>
+    <script src="vendors.js"></script>
+    <script src="app.js"></script>
 
-    <script src="../bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="../bower_components/angular/angular.min.js"></script>
-
-    <script src="../src/app.js"></script>
+    
   </head>
 
-  <body>
+  <body ng-app="shuffling" class="container">
     <h1>Shuffling Pines</h1>
     <div class="row">
       <div class="col-md-12">
@@ -21,57 +19,54 @@
         <ul class="nav nav-tabs" role="tablist">
           <li role="presentation" class="active"><a href="#form" aria-controls="form" role="tab" data-toggle="tab">Form</a></li>
           <li role="presentation"><a href="#guests" aria-controls="guests" role="tab" data-toggle="tab">Guests</a></li>
-        </ul>
+        </ul>`
 
         <!-- Tab panes -->
         <div class="tab-content">
           <!-- Tab pane 1 -->
-          <div role="tabpanel" class="tab-pane active" id="form">
+          <div role="tabpanel" class="tab-pane active" id="form" ng-controller="ShufflingController as vm">
             <div>
-
-              <form class="col-md-6 well">
+              <form class="col-md-6 well" ng-submit="vm.Add()" name="GuestForm">
                 <div class="form-group">
                   <label for="guest-name">Guest Name</label>
-                  <input type="text" class="form-control" id="guest-name" placeholder="">
+                  <input type="text" class="form-control" id="guest-name" placeholder="" ng-model="vm.guestname">
                 </div>
                 <div class="form-group">
                   <label for="transition-date">Transition Date</label>
-                  <input type="date" class="form-control" id="transition-date" placeholder="">
+                  <input type="date" class="form-control" id="transition-date" placeholder="" ng-model="vm.date">
                 </div>
                 <div class="radio">
                   <label>
-                    <input type="radio" name="pickup-dropoff" id="pickup" value="pickup" checked>
+                    <input type="radio" name="pickup-dropoff" id="pickup" value="pickup" ng-model="vm.pickup" checked>
                     Pick-up
                   </label>
-                </div>
-                <div class="radio">
                   <label>
-                    <input type="radio" name="pickup-dropoff" id="dropoff" value="dropoff">
+                    <input type="radio" name="pickup-dropoff" id="dropoff" value="dropoff" ng-model="vm.drop">
                     Drop-off
                   </label>
                 </div>
                 <div class="form-group">
                   <label for="location">Location</label>
-                  <textarea class="form-control" id="location"></textarea>
+                  <textarea class="form-control" id="location" ng-model="vm.location"></textarea>
                 </div>
                 <button type="submit" class="btn">Submit</button>
               </form>
 
               <!-- bound display -->
-              <div ng-show="false" class="col-md-6 well">
-                <div ng-show="false" class="form-group">
+              <div  class="col-md-6 well">
+                <div class="form-group">
                   <label>Name: </label>
-                  John Harvard
+                  {{vm.guestname}}
                 </div>
-                <div ng-show="false" class="form-group">
+                <div  class="form-group">
                   <label>Transition Date: </label>
-                  today!
+                  {{vm.date}}
                 </div>
-                <div ng-show="false" class="form-group">
+                <div class="form-group">
                   <label>Status: </label>
                   drop-off
                 </div>
-                <div ng-show="false" class="form-group">
+                <div  class="form-group">
                   <label>Location: </label>
                   right here
                 </div>
