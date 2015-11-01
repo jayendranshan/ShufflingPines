@@ -26,7 +26,7 @@
           <!-- Tab pane 1 -->
           <div role="tabpanel" class="tab-pane active" id="form" ng-controller="ShufflingController as vm">
             <div>
-              <form class="col-md-6 well" ng-submit="vm.Add()" name="GuestForm">
+              <form class="col-md-6 well" name="GuestForm">
                 <div class="form-group">
                   <label for="guest-name">Guest Name</label>
                   <input type="text" class="form-control" id="guest-name" placeholder="" ng-model="vm.guestname">
@@ -37,19 +37,19 @@
                 </div>
                 <div class="radio">
                   <label>
-                    <input type="radio" name="pickup-dropoff" id="pickup" value="pickup" ng-model="vm.pickup" checked>
+                    <input type="radio" name="pickup-dropoff" id="pickup" value="pickup" ng-model="vm.pickupdrop" checked>
                     Pick-up
                   </label>
                   <label>
-                    <input type="radio" name="pickup-dropoff" id="dropoff" value="dropoff" ng-model="vm.drop">
+                    <input type="radio" name="pickup-dropoff" id="dropoff" value="dropoff" ng-model="vm.pickupdrop">
                     Drop-off
                   </label>
                 </div>
                 <div class="form-group">
                   <label for="location">Location</label>
-                  <textarea class="form-control" id="location" ng-model="vm.location"></textarea>
+                  <textarea class="form-control" id="location" ng-model="vm.address"></textarea>
                 </div>
-                <button type="submit" class="btn">Submit</button>
+                <button type="submit" class="btn" ng-click="vm.Add()">Submit</button>
               </form>
 
               <!-- bound display -->
@@ -64,24 +64,62 @@
                 </div>
                 <div class="form-group">
                   <label>Status: </label>
-                  drop-off
+                  {{vm.pickupdrop}}
                 </div>
                 <div  class="form-group">
                   <label>Location: </label>
-                  right here
+                  {{vm.address}}
                 </div>
               </div>
 
+              <div>
+                <ul class="list-unstyled">
+                  <li ng-repeat="guest in vm.guests">
+
+                      {{guest.guestname}}
+                      {{guest.date}}
+                      {{guest.status}}
+                      {{guest.address}}
+
+                  </li>
+                </ul>
+              </div>
+
             </div>
+         
           </div>
 
-          <!-- Tab pane 2 -->
-          <div role="tabpanel" class="tab-pane" id="guests">
-            <ul class="list-unstyled">
-              <li>
+                       <!-- Tab pane 2 -->
+          <div role="tabpanel" class="tab-pane" id="guests" ng-controller="GuestListController as glc">
+            <!--<ul class="list-unstyled">
+              <li ng-repeat="(index,guest) in vm.guests">
+                  {{$index}}
+                  {{guest.guestname}}
+                  {{guest.date}}
+                  {{guest.pickupdrop}}
+                  {{guest.address}}
 
-              </li>
-            </ul>
+              </li>            </ul>-->
+
+            <table class="table">
+              <caption>Guest List</caption>
+              <tr>
+                <th>Sl.No</th>
+                <th>Guest Name</th>
+                <th>Transition Date</th>
+                <th>Status</th>
+                <th>Location</th>
+              </tr>
+              <tr ng-repeat="(index,guest) in vm.guests" ng-class-odd="'odd'" ng-class-even="'even'">
+                <td>{{index}}</td>
+                <td>{{guest.guestname}}</td>
+                <td>{{guest.date}}</td>
+                <td>{{guest.status}}</td>
+                <td>{{guest.address}}</td>
+                <td><button class="btn" ng-click = "guests.slice($index)">-</button></td>
+                <td><button class="btn" ng-click = "guests.slice($index)">Edit</button></td>
+              </tr>
+            </table>
           </div>
 
         </div>

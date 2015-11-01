@@ -29,11 +29,17 @@ angular.module('shuffling', [])
  	vm.Add = function(){ 
  		//console.log("Hi how r username");
  		vm.guests.push({
- 			username : vm.username,
- 			time : new Date()
+ 			guestname : vm.guestname,
+ 			date : vm.date,
+ 			status: vm.pickupdrop,
+ 			address: vm.address
  		});
- 		vm.username='';
- 		vm.password='';
+ 		localStorage.setItem('GuestList', vm.guests);
+ 		var nextId = $(this).parents('.tab-pane').next().attr("id")||'guests';
+ 		console.log(nextId);
+  		$('[href=#'+nextId+']').tab('show');
+ 		console.log(vm.guests);
+
  	};
 
  	});

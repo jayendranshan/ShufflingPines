@@ -1,1 +1,1 @@
-angular.module("shuffling",[]).controller("ShufflingController",function(){var e=this;e.guests=[],e.Add=function(){e.guests.push({username:e.username,time:new Date}),e.username="",e.password=""}});
+angular.module("shuffling",[]).controller("ShufflingController",function(){var s=this;s.guests=[],s.Add=function(){s.guests.push({guestname:s.guestname,date:s.date,status:s.pickupdrop,address:s.address}),localStorage.setItem("GuestList",s.guests);var t=$(this).parents(".tab-pane").next().attr("id")||"guests";console.log(t),$("[href=#"+t+"]").tab("show"),console.log(s.guests)}});
