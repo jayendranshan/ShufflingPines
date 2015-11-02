@@ -29,25 +29,25 @@
               <form class="col-md-6 well" name="GuestForm">
                 <div class="form-group">
                   <label for="guest-name">Guest Name</label>
-                  <input type="text" class="form-control" id="guest-name" placeholder="" ng-model="vm.guestname">
+                  <input type="text" class="form-control" id="guest-name" placeholder="" ng-model="vm.guest.name">
                 </div>
                 <div class="form-group">
                   <label for="transition-date">Transition Date</label>
-                  <input type="date" class="form-control" id="transition-date" placeholder="" ng-model="vm.date">
+                  <input type="date" class="form-control" id="transition-date" placeholder="" ng-model="vm.guest.date">
                 </div>
                 <div class="radio">
                   <label>
-                    <input type="radio" name="pickup-dropoff" id="pickup" value="pickup" ng-model="vm.pickupdrop" checked>
+                    <input type="radio" name="pickup-dropoff" id="pickup" value="pickup" ng-model="vm.guest.pickupdrop" checked>
                     Pick-up
                   </label>
                   <label>
-                    <input type="radio" name="pickup-dropoff" id="dropoff" value="dropoff" ng-model="vm.pickupdrop">
+                    <input type="radio" name="pickup-dropoff" id="dropoff" value="dropoff" ng-model="vm.guest.pickupdrop">
                     Drop-off
                   </label>
                 </div>
                 <div class="form-group">
                   <label for="location">Location</label>
-                  <textarea class="form-control" id="location" ng-model="vm.address"></textarea>
+                  <textarea class="form-control" id="location" ng-model="vm.guest.address"></textarea>
                 </div>
                 <button type="submit" class="btn" ng-click="vm.Add()">Submit</button>
               </form>
@@ -56,23 +56,23 @@
               <div  class="col-md-6 well">
                 <div class="form-group">
                   <label>Name: </label>
-                  {{vm.guestname}}
+                  {{vm.guest.name}}
                 </div>
                 <div  class="form-group">
                   <label>Transition Date: </label>
-                  {{vm.date}}
+                  {{vm.guest.date}}
                 </div>
                 <div class="form-group">
                   <label>Status: </label>
-                  {{vm.pickupdrop}}
+                  {{vm.guest.pickupdrop}}
                 </div>
                 <div  class="form-group">
                   <label>Location: </label>
-                  {{vm.address}}
+                  {{vm.guest.address}}
                 </div>
               </div>
 
-              <div>
+              <!--<div>
                 <ul class="list-unstyled">
                   <li ng-repeat="guest in vm.guests">
 
@@ -83,7 +83,7 @@
 
                   </li>
                 </ul>
-              </div>
+              </div>-->
 
             </div>
          
@@ -91,17 +91,7 @@
 
                        <!-- Tab pane 2 -->
           <div role="tabpanel" class="tab-pane" id="guests" ng-controller="GuestListController as glc">
-            <!--<ul class="list-unstyled">
-              <li ng-repeat="(index,guest) in vm.guests">
-                  {{$index}}
-                  {{guest.guestname}}
-                  {{guest.date}}
-                  {{guest.pickupdrop}}
-                  {{guest.address}}
-
-              </li>            </ul>-->
-
-            <table class="table">
+            <table class="table table-striped table-bordered">
               <caption>Guest List</caption>
               <tr>
                 <th>Sl.No</th>
@@ -109,15 +99,17 @@
                 <th>Transition Date</th>
                 <th>Status</th>
                 <th>Location</th>
+                <th>Delete</th>
+                <th>Edit</th>
               </tr>
-              <tr ng-repeat="(index,guest) in vm.guests" ng-class-odd="'odd'" ng-class-even="'even'">
+              <tr ng-repeat="(index,guest) in glc.guestsList" ng-class-odd="'odd'" ng-class-even="'even'">
                 <td>{{index}}</td>
                 <td>{{guest.guestname}}</td>
                 <td>{{guest.date}}</td>
                 <td>{{guest.status}}</td>
                 <td>{{guest.address}}</td>
-                <td><button class="btn" ng-click = "guests.slice($index)">-</button></td>
-                <td><button class="btn" ng-click = "guests.slice($index)">Edit</button></td>
+                <td><button class="btn" ng-really-message="Are you sure?" ng-click = "glc.remove($index)">Delete</button></td>
+                <td><button class="btn" ng-click = "glc.Edit($index)">Edit</button></td>
               </tr>
             </table>
           </div>

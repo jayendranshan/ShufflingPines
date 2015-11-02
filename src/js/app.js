@@ -1,49 +1,68 @@
-//$(document).ready(function(){
-  //var fizzbuzz = 0;
-  //$('#plus-btn').click(function(){
-    //fizzbuzz++;
-    //$('#fizzbuzz').html(fizzbuzz);
-  //});
-  //$('#fizzbuzz').html(fizzbuzz);
-//});
+var app = angular.module('shuffling', []);
 
-
-//var app = angular.module('shuffling', []);
-
-//app.controller('FormController', [function(){
-
-
-//}]);
-
-//app.controller('TabController', [function(){
-
-//}]);
-
-angular.module('shuffling', [])
- .controller('ShufflingController',function(){
+app.controller('ShufflingController',['Guest','GuestSvc',function(Guest,GuestSvc){
  	var vm = this;
 
- 	vm.guests=[];
- 	//vm.username = "Jayendran";
+ 	vm.guest=Guest;
 
  	vm.Add = function(){ 
- 		//console.log("Hi how r username");
- 		vm.guests.push({
- 			guestname : vm.guestname,
- 			date : vm.date,
- 			status: vm.pickupdrop,
- 			address: vm.address
- 		});
- 		localStorage.setItem('GuestList', vm.guests);
- 		var nextId = $(this).parents('.tab-pane').next().attr("id")||'guests';
- 		console.log(nextId);
-  		$('[href=#'+nextId+']').tab('show');
- 		console.log(vm.guests);
-
+ 		GuestSvc.Add(vm.guest);
  	};
-
- 	});
-
+}]);
 
 
-// });
+app.controller('GuestListController', ['GuestSvc',function(GuestSvc){
+	var glc = this;
+	glc.guestsList=[];
+	glc.guestsList = GuestSvc.list();
+
+	glc.remove = function(index){
+    	GuestSvc.remove(index);
+  	};
+
+}]);
+
+
+app.value('Guest', {name: "Jay", pickupdrop: "pickup", address: "Boston"});
+
+app.service('GuestSvc', function(){
+
+var guestsList = [];
+
+  this.Add = function(Guest){
+
+  		guestsList.push({
+ 			guestname : Guest.name,
+ 			date : Guest.date,
+ 			status: Guest.pickupdrop,
+ 			address: Guest.address
+ 		});
+
+ 		console.log(guestsList);
+  	 	localStorage.setItem('GuestList', guestsList);
+ 		var nextId = $(this).parents('.tab-pane').next().attr("id")||'guests';
+  		$('[href=#'+nextId+']').tab('show');
+  };
+
+   this.remove = function(index){
+   	if (confirm('Are you sure you want to delete this?')){
+   	localStorage.setItem('GuestList', '');
+    guestsList.splice(index, 1);
+    localStorage.setItem('GuestList', guestsList);
+	}
+  };
+
+  this.list = function () {
+        return guestsList;
+    };
+
+   this.get = function (index) {
+        for (i in guestsList) {
+            if (guestsList[i].index == index) {
+                return guestsList[i];
+            }
+        }
+
+    }
+
+});
