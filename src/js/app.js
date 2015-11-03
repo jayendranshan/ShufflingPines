@@ -11,19 +11,24 @@ app.controller('ShufflingController',['Guest','GuestSvc',function(Guest,GuestSvc
 }]);
 
 
-app.controller('GuestListController', ['GuestSvc',function(GuestSvc){
+app.controller('GuestListController', ['Guest','GuestSvc',function(Guest,GuestSvc){
 	var glc = this;
 	glc.guestsList=[];
 	glc.guestsList = GuestSvc.list();
+	glc.newguest=Guest;
 
 	glc.remove = function(index){
     	GuestSvc.remove(index);
   	};
 
+  	glc.Update = function(index){
+    	GuestSvc.Update(index,glc.newguest);
+  	};
+
 }]);
 
 
-app.value('Guest', {name: "Jay", pickupdrop: "pickup", address: "Boston"});
+app.value('Guest', {name: "Jay", pickupdrop: "pickup"});
 
 app.service('GuestSvc', function(){
 
@@ -40,6 +45,7 @@ var guestsList = [];
 
  		console.log(guestsList);
   	 	localStorage.setItem('GuestList', guestsList);
+  	 	Guest = {};
  		var nextId = $(this).parents('.tab-pane').next().attr("id")||'guests';
   		$('[href=#'+nextId+']').tab('show');
   };
@@ -49,6 +55,7 @@ var guestsList = [];
    	localStorage.setItem('GuestList', '');
     guestsList.splice(index, 1);
     localStorage.setItem('GuestList', guestsList);
+    console.log(guestsList);
 	}
   };
 
@@ -58,11 +65,24 @@ var guestsList = [];
 
    this.get = function (index) {
         for (i in guestsList) {
-            if (guestsList[i].index == index) {
+            if (guestsList[i].index === index) {
                 return guestsList[i];
             }
         }
 
-    }
+    };
+
+    this.Update = function(index,Guest){
+ 		//$scope.newcontact = angular.copy(GuestSvc.get(index));
+
+ 		for (var i in guestsList) {
+                if (guestsList[i].id === index) {
+                    guestsList[i] = Guest;
+                }
+            }
+        localStorage.setItem('GuestList', '');
+        localStorage.setItem('GuestList', guestsList);
+        console.log(guestsList);
+  };
 
 });
