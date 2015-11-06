@@ -54,6 +54,12 @@ app.controller('GuestListController', ['Guest','GuestSvc','$scope',function(Gues
     	Guest = GuestSvc.Edit(index);
   	};
 
+    glc.glcEditTest = function(testVariable){
+      glc.testVariable = true;
+      glc.testVariable = !glc.testVariable;
+      return glc.testVariable;
+    };
+
 }]);
 
 
@@ -143,4 +149,50 @@ var guestsList = [];
         localStorage.setItem("GuestListStore", guestsList);
         console.log(guestsList);
     };
+
+//Test methods.
+this.removeTest = function(index,guestsListTest){
+    guestsListTest.splice(index, 1);
+  };
+
+//Test methods.
+this.addTest = function(GuestsLists,newGuest){
+    GuestsLists.push({
+      guestname : newGuest.name,
+      status: newGuest.status,
+      address: newGuest.address
+    });
+  };
+
+//Test methods.
+  this.EditTest = function (index,guestsListTest) {
+        if(guestsListTest[index].status === 'pickup')
+        {
+          guestsListTest[index].status = 'arrived';
+        }
+        else if(guestsListTest[index].status === 'dropoff')
+        {
+          guestsListTest[index].status = 'arrived';
+        }
+        else if(guestsListTest[index].status === 'arrived')
+        {
+          guestsListTest[index].status = 'pickup';
+        }
+    };
+
+//Test methods.
+    this.setgetlocalstorageTest = function (guestsListTest){
+      var newguestsListTest = [];
+      localStorage.removeItem("GuestListStoreTest");
+      localStorage.setItem("GuestListStoreTest", guestsListTest);
+      newguestsListTest = localStorage.getItem("GuestListStoreTest");
+      return newguestsListTest;
+    };
+
+//Test methods.
+    this.updateTest = function(index,guestsListTest,newString){
+      console.log(newString);
+    guestsListTest[index].address = newString;
+  };
+
 }]);

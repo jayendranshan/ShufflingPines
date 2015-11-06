@@ -14,9 +14,9 @@
 10. Guest tab will have option to delete and edit the guest information.
 11. Clicking edit button will have editable controllable populating the details already.
 12. Status will be shown by the rule. In the editable mode, admins cannot change the value.
-      "pick up" will be "arrived"
-      "drop off" will be "arrived"
-      "arrived" will be "pick up". 
+      1. "pick up" will be "arrived"
+      2. "drop off" will be "arrived"
+      3. "arrived" will be "pick up". 
 
 ## Controller
 
@@ -25,6 +25,8 @@
     *. GuestListController.
 2. ShufflingController will have the form to create new guests.
 3. GuestListController will have the guest list and option to edit and delete the guest list inline.
+4. Controller variable is used for all the operation.
+5. 
 
 ## Model
 
@@ -36,6 +38,7 @@
     3. removeItem
 4. Guest list is stored/edited in the local storage after edit and delete operation
 5. Status change rule was also implemented in the service only.
+6. Delete the guest will show confirm box before deleting.
 
 ## Test
 
