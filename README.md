@@ -1,99 +1,52 @@
-# Week 7: Angular Intro
+# Assignment 2: Shuffling Pines
 
-## Create a new Angular App
-*together*
+## Guest List form
 
-1. Pull down this repository
-2. `npm install`
-3. `bower install`
-4. `gulp`
-5. `bower install angular`
-6. Make sure it's all working
-  * karma
-  * gulp
+1. Created a form and put it under controller "ShufflingController"
+2. Form has guest name, transition date, status of the guest and location.
+3. Status will have 2 option at first pickup and dropoff.
+4. Admins can enter the details and submit the form.
+5. Location will be available only if pickup is selected.
+6. By default , dummy user will be available at the right side of the form.
+7. Required field validation is done in the form. Admin can add the guests only if the required field is populated.
+8. Once form is filled and submit button is clicked, the guest list will be added in the GUEST tab.
+9. Guest tab will have index for each guest.
+10. Guest tab will have option to delete and edit the guest information.
+11. Clicking edit button will have editable controllable populating the details already.
+12. Status will be shown by the rule. In the editable mode, admins cannot change the value.
+      "pick up" will be "arrived"
+      "drop off" will be "arrived"
+      "arrived" will be "pick up". 
 
-## Declarative
-*together*
+## Controller
 
-1. `ng-app` to initialize the angular application
-2. `ng-init` to set a variable named "buzzer" to an initial value
-  * `buzzer = 1`
-3. Use an `{{ expression }}` to output the value to the screen
-4. `ng-click` to update the value, increment the value
-  * `ng-click="buzzer = buzzer + 1"`
-5. `ng-show` to print "Fizz" when `buzzer` is a multiple of 3
-  * *and don't show it on 0*
-6. Refresh it a few times
-  * Use `ng-cloak` to control the "FOUT"
+1. I have used 2 controllers
+    *. ShufflingController
+    *. GuestListController.
+2. ShufflingController will have the form to create new guests.
+3. GuestListController will have the guest list and option to edit and delete the guest list inline.
 
-## Add more to it
-*on your own*
+## Model
 
-1. `ng-hide` to print "Buzz" when `buzzer` is a multiple of 5 (and not 0)
-  * `ng-hide` is just the opposite of `ng-show`
-2. Add a subtract 1 button
-3. `ng-if` to show a block of text if the value of buzzer is greater than 10
-  * `ng-if` works the same as `ng-show`
-4. `ng-class` to hide that same block of text if the value of buzzer is greater than 20
-  * Use bootstrap's `hide` class
-  * Use `ng-class` as an object literal that has the classname as a key and expression as a value: [ngClass](https://docs.angularjs.org/api/ng/directive/ngClass)
-  * `ng-class="{cssclassname:true === true}"`
+1. Used Service for model.
+2. All data operation like Add, Delete, Edit/Update and status change are done in the service.
+3. LocalStorage action are also done in the service only. These operations are used to maintain the data in the session.
+    1. setItem
+    2. getItem
+    3. removeItem
+4. Guest list is stored/edited in the local storage after edit and delete operation
+5. Status change rule was also implemented in the service only.
 
-## `ng-repeat`
-*together*
+## Test
 
-1. Define an array using `ng-init`
-  * something simple, like `letters = ['a', 'b', 'c']`
-2. Create an `<ul>` with a bootstrap class of `list-unstyled`
-3. Create a `<li>`
-4. Add `ng-repeat` to the `<li>`
-  * `ng-repeat="letter in letters"`
-  * similar to JavaScript's "for-in" `for(item in arr){...}` format
-  * 
+1. Angular mock is installed .
+2. Module service is used to include the required controller and Service.
+3. Inject service is used to inject the scope.
+4. Both the controllers and services are tested. 
+5. Test is written for Add, Edit , Remove, Get the list, check for local storage and status change.
+4. Gulp is used.
+5. Concat JS and CSS (for vendor libs and our application).
+6. Uglify the JS and Minify the CSS.
+7. Karma is used to run the jasmine test.
+8. JSHint tests.
 
-## ng-repetition
-*on your own*
-
-1. Define an array of objects with `ng-init`
-  * if you're not creative: `names = [{fname: 'jazahn', lname: 'clevenger'}, ...]`
-2. Create a `<table>` with a bootstrap class of `table`
-  * *make sure you always [use headers! with `scope`s!](http://webaim.org/techniques/tables/data#headers)*
-  * and a [caption](http://webaim.org/techniques/tables/data#caption) never hurts...
-3. `ng-repeat` the row for the data in your array
-4. Use `ng-class-even` and/or `ng-class-odd` to [stripe the rows](https://docs.angularjs.org/api/ng/directive/ngClassEven)
-
-## `$index` and our limits
-*together*
-
-1. Create a new column for "Index"
-2. Print out `$index` in an expression in that column for each element of the array
-  * but `$index` is ugly and the context or scope may not be clear
-  * use [this format](https://docs.angularjs.org/api/ng/directive/ngRepeat#iterating-over-object-properties) instead
-  * `(index, name) in names`
-3. Create a new column for "Actions"
-4. Put a button in that column `<button class='btn'>Do something</button>`
-5. Add an `ng-click` to the button that will do `names.slice($index)`
-  * now try `alert($index)` or `window.alert('anything')`
-
-**Angular expressions are limited by the scope they're in**
-
-## What Scope are we in???
-*together*
-
-1. Add the `{{ buzzer }}` expression to `div2`
-2. Make sure it's there and updating
-3. Add this controller to your app.js: 
-  * `angular.module('fizzbuzzer', []).controller('MyController', function(){});`
-4. Add an `ng-controller` to `div1` with a name of "MyController"
-5. Check to see where `buzzer` is updating
-```
-// kind of sort of works similar to this:
-// $rootScope
-var buzzer = 0;
-function MyController(){
- // $scope
- var buzzer = 1;
- console.log(buzzer);
-}
-console.log(buzzer);
-```

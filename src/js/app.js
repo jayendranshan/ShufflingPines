@@ -6,6 +6,18 @@ app.controller('ShufflingController',['Guest','GuestSvc','$scope',function(Guest
  	vm.guest=Guest;
  	$scope.submitted = false;
 
+  //For testing controller, this was added
+  vm.guestsListtesting = [];
+  vm.addTest = function(){ 
+    vm.guestsListtesting.push({
+      guestname : Guest.name,
+      date : Guest.date,
+      status: Guest.status,
+      address: Guest.address
+    });
+  };
+  
+
  	vm.Add = function(){ 
  		 if ($scope.GuestForm.$valid) {
  		 	GuestSvc.Add(vm.guest);
@@ -37,21 +49,19 @@ app.controller('GuestListController', ['Guest','GuestSvc','$scope',function(Gues
 	    	glc.readonly = true;
   	};
 
-  	glc.showEdit = function(index){
+  	glc.Edit = function(index){
     	glc.readonly = !glc.readonly;
-    	glc.newStatus = GuestSvc.statusChange(index);
-    	
+    	Guest = GuestSvc.Edit(index);
   	};
 
 }]);
 
 
-app.value('Guest', {name: "Jay", pickupdrop: "pickup"});
+app.value('Guest', {name: "Jay", status: "pickup"});
 
-app.service('GuestSvc', function(){
+app.service('GuestSvc', ['Guest',function(Guest){
 
 var guestsList = [];
-var newStatus = '';
 
   this.Add = function(Guest){
 
@@ -63,71 +73,74 @@ var newStatus = '';
  		});
 
  		console.log(guestsList);
-  	 	localStorage.setItem('GuestList', guestsList);
+  	 	localStorage.setItem("GuestListStore", guestsList);
   	 	Guest = {};
  		var nextId = $(this).parents('.tab-pane').next().attr("id")||'guests';
   		$('[href=#'+nextId+']').tab('show');
   };
 
    this.remove = function(index){
-   	if (confirm('Are you sure you want to delete this?')){
-   	localStorage.setItem('GuestList', '');
-    guestsList.splice(index, 1);
-    localStorage.setItem('GuestList', guestsList);
-    console.log(guestsList);
-	}
+     	if (confirm('Are you sure you want to delete this?')){
+     	localStorage.removeItem("GuestListStore");
+      guestsList.splice(index, 1);
+      localStorage.setItem("GuestListStore", guestsList);
+      console.log(guestsList);
+  	}
+  };
+
+  this.removeTest = function(index,guestsListTest){
+    guestsListTest.splice(index, 1);
   };
 
   this.list = function () {
+
         return guestsList;
     };
 
    this.get = function (index) {
-        for (var i in guestsList) {
-            if (guestsList[i].index === index) {
-                return guestsList[i];
-            }
-        }
+        //for (var i in guestsList) {
+            //if (guestsList[i].id === index) {
+                //return guestsList[i];
+            //}
+        //}
+        //var fullGuestList = [];
+        //fullGuestList = localStorage.getItem("GuestListStore")
+        return guestsList[index];
 
     };
 
     this.Update = function(index,Guest){
  		//$scope.newcontact = angular.copy(GuestSvc.get(index));
-
  		for (var i in guestsList) {
                 if (guestsList[i].id === index) {
+                	console.log(guestsList[i]);
                     guestsList[i] = Guest;
                 }
             }
-        localStorage.setItem('GuestList', '');
-        localStorage.setItem('GuestList', guestsList);
+        localStorage.removeItem("GuestListStore");
+        localStorage.setItem("GuestListStore", guestsList);
         console.log(guestsList);
   };
 
-  this.statusChange = function (index) {
-        //var guestDetails = this.get(index);
-        console.log(guestsList);
-        console.log(index);
-        for (var i in guestsList) {
-        	console.log(index);
-            if (guestsList[i].index === index) {
-            	console.log('inside');
-                console.log(guestsList[i]);
-            }
+  this.Edit = function (index) {
+        //var oneGuestDetails = this.get(index);
+        //console.log(guestsList);
+        //console.log(index);
+        //console.log(guestsList[index].status);
+        if(guestsList[index].status === 'pickup')
+        {
+        	guestsList[index].status = 'arrived';
         }
-        //if(guestDetails.status == 'pickup')
-		    	//{
-		    		//newStatus = 'arrived';
-		    	//}
-		    	//else if (guestDetails.status == 'dropoff')
-		    	//{
-		    		//newStatus = 'arrived';
-		    	//}
-		    	//else if (guestDetails.status == 'arrived')
-		    	//{
-		    		//newStatus = 'pickup';
-		    	//}
-        return newStatus;
+        else if(guestsList[index].status === 'dropoff')
+        {
+        	guestsList[index].status = 'arrived';
+        }
+        else if(guestsList[index].status === 'arrived')
+        {
+        	guestsList[index].status = 'pickup';
+        }
+        localStorage.removeItem("GuestListStore");
+        localStorage.setItem("GuestListStore", guestsList);
+        console.log(guestsList);
     };
-
-});
+}]);
